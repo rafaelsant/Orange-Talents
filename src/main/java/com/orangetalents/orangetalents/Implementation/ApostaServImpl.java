@@ -36,9 +36,12 @@ public class ApostaServImpl implements ApostaService {
 	@Override
 	public List<Aposta> getApostaByEmail(String email) {
 		return manager.createQuery("select distinct v " + 
-				"from Aposta v join fetch v.betNumbers p where p.aposta.email = '"+ email+"'", Aposta.class).getResultList();
+				"from Aposta v join fetch "+ 
+				"v.betNumbers p where p.aposta.email = '"
+				+ email+"'", Aposta.class).getResultList();
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public Aposta createAposta(String email) {
 		Aposta aposta = new Aposta();
@@ -48,7 +51,10 @@ public class ApostaServImpl implements ApostaService {
 		for(Aposta n : apostasByEmail) {
 			System.out.println(gerados.stream().map( v -> v.getGeneratedNumber()).collect(Collectors.toSet()));
 			System.out.println(n.getBetNumbers());
-			while(n.getBetNumbers().equals(n.getBetNumbers().equals(gerados.stream().map( v -> v.getGeneratedNumber()).collect(Collectors.toSet())))){
+			while(n.getBetNumbers().equals(n.getBetNumbers()
+					.equals(gerados.stream()
+							.map( v -> v.getGeneratedNumber())
+							.collect(Collectors.toSet())))){
 				System.out.println("numeros iguais gerados!");
 				gerados = Generator.NumGenerator(aposta);
 			}

@@ -25,34 +25,22 @@ public class Numbers {
     @JoinColumn(name = "aposta_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Aposta aposta;
-
-    public Numbers() {
-    }
+    
 	public Numbers(Integer generatedNumber, Aposta aposta) {
 		this.generatedNumber = generatedNumber;
 		this.aposta = aposta;
 	}
-//    public Long getId() {
-//        return id;
-//    }
-
+	public Numbers() {};
     public Integer getGeneratedNumber() {
         return generatedNumber;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public void setGeneratedNumber(Integer generatedNumber) {
         this.generatedNumber = generatedNumber;
     }
-
     public void setAposta(Aposta aposta) {
         this.aposta = aposta;
     }
-
-//    public Aposta getAposta() {
-//        return aposta;
-//    }
 }
