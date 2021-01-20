@@ -12,43 +12,43 @@ import com.orangetalents.orangetalents.Generator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.orangetalents.orangetalents.Models.Aposta;
+import com.orangetalents.orangetalents.Models.Bet;
 import com.orangetalents.orangetalents.Models.Numbers;
-import com.orangetalents.orangetalents.Repository.ApostaRepository;
-import com.orangetalents.orangetalents.Services.ApostaService;
+import com.orangetalents.orangetalents.Repository.BetRepository;
+import com.orangetalents.orangetalents.Services.BetService;
 @Service
-public class ApostaServImpl implements ApostaService {
+public class BetServImpl implements BetService {
 	@Autowired
-	private ApostaRepository apostaRep;
+	private BetRepository apostaRep;
 	@PersistenceContext
 	private EntityManager manager;
 	
 	@Override
-	public Optional<Aposta> getApostaById(Long id) {
+	public Optional<Bet> getBetById(Long id) {
 		return apostaRep.findById(id);
 	}
 
 	@Override
-	public List<Aposta> getAll() {
-		return apostaRep.getAllApostas();
+	public List<Bet> getAll() {
+		return apostaRep.getAllBets();
 	}
 
 	@Override
-	public List<Aposta> getApostaByEmail(String email) {
+	public List<Bet> getBetByEmail(String email) {
 		return manager.createQuery("select distinct v " + 
-				"from Aposta v join fetch "+ 
-				"v.betNumbers p where p.aposta.email = '"
-				+ email+"'", Aposta.class).getResultList();
+				"from Bet v join fetch "+ 
+				"v.betNumbers p where p.bet.email = '"
+				+ email+"'", Bet.class).getResultList();
 	}
 
 	@SuppressWarnings("unlikely-arg-type")
 	@Override
-	public Aposta createAposta(String email) {
-		Aposta aposta = new Aposta();
+	public Bet createBet(String email) {
+		Bet aposta = new Bet();
 		aposta.setEmail(email);
 		Set<Numbers> gerados = Generator.NumGenerator(aposta); 
-		List<Aposta> apostasByEmail = getApostaByEmail(email);
-		for(Aposta n : apostasByEmail) {
+		List<Bet> apostasByEmail = getBetByEmail(email);
+		for(Bet n : apostasByEmail) {
 			System.out.println(gerados.stream().map( v -> v.getGeneratedNumber()).collect(Collectors.toSet()));
 			System.out.println(n.getBetNumbers());
 			while(n.getBetNumbers().equals(n.getBetNumbers()
@@ -64,7 +64,7 @@ public class ApostaServImpl implements ApostaService {
 	}
 
 	@Override
-	public void deleteAposta(Long id) {
+	public void deleteBet(Long id) {
 		apostaRep.deleteById(id);
 	}
 	

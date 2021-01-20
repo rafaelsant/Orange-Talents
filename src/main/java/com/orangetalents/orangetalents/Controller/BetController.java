@@ -19,39 +19,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.orangetalents.orangetalents.Models.Aposta;
-import com.orangetalents.orangetalents.Services.ApostaService;
+import com.orangetalents.orangetalents.Models.Bet;
+import com.orangetalents.orangetalents.Services.BetService;
 
 @RestController
 @RequestMapping("api/aposta")
-public class ApostaController {
+public class BetController {
 	@Autowired
-	private ApostaService service;
+	private BetService service;
 	
 	@GetMapping
-	public List<Aposta> getApostas(){
+	public List<Bet> getBets(){
 		return service.getAll();
 	}
 	@GetMapping("/id/{id}")
-	public Optional<Aposta> getApostaById(@PathVariable Long id){
-		return service.getApostaById(id);
+	public Optional<Bet> getBetById(@PathVariable Long id){
+		return service.getBetById(id);
 	}
 	@GetMapping("/{email}")
-	public ResponseEntity<List<Aposta>> getApostaByEmail(@Valid @PathVariable String email){
-		Optional<List<Aposta>> aposta = Optional.of(service.getApostaByEmail(email));
-		if(!service.getApostaByEmail(email).isEmpty()) {
-			return ResponseEntity.ok(aposta.get());
+	public ResponseEntity<List<Bet>> getBetByEmail(@Valid @PathVariable String email){
+		Optional<List<Bet>> bet = Optional.of(service.getBetByEmail(email));
+		if(!service.getBetByEmail(email).isEmpty()) {
+			return ResponseEntity.ok(bet.get());
 		}
 			return ResponseEntity.notFound().build();
 	}
 	@PostMapping("/{email}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Aposta saveAposta(@PathVariable @Valid  String email) {
-		return service.createAposta(email);
+	public Bet saveBet(@PathVariable @Valid  String email) {
+		return service.createBet(email);
 	}
 	@DeleteMapping("/{id}")
-	public void deleteAposta(@PathVariable Long id) {
+	public void deleteBet(@PathVariable Long id) {
 		System.out.println(id);
-		service.deleteAposta(id);
+		service.deleteBet(id);
 	}
 }

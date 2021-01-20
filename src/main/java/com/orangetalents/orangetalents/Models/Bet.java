@@ -11,8 +11,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "apostas")
-public class Aposta {
+@Table(name = "bet")
+public class Bet {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -20,7 +20,7 @@ public class Aposta {
 	@Email
 	private String email;
 
-	@OneToMany(mappedBy = "aposta",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "bet",cascade = CascadeType.ALL)
 	private Set<Numbers> betNumbers;
 
 	public Set<Integer> getBetNumbers() {

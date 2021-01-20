@@ -22,13 +22,13 @@ public class Numbers {
     private Integer generatedNumber;
     
     @ManyToOne
-    @JoinColumn(name = "aposta_id")
+    @JoinColumn(name = "bet_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Aposta aposta;
+    private Bet bet;
     
-	public Numbers(Integer generatedNumber, Aposta aposta) {
+	public Numbers(Integer generatedNumber, Bet aposta) {
 		this.generatedNumber = generatedNumber;
-		this.aposta = aposta;
+		this.bet = aposta;
 	}
 	public Numbers() {};
     public Integer getGeneratedNumber() {
@@ -40,7 +40,7 @@ public class Numbers {
     public void setGeneratedNumber(Integer generatedNumber) {
         this.generatedNumber = generatedNumber;
     }
-    public void setAposta(Aposta aposta) {
-        this.aposta = aposta;
+    public void setAposta(Bet aposta) {
+        this.bet = aposta;
     }
 }
