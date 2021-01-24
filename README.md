@@ -21,8 +21,9 @@ Nesse projeto Spring Boot foi desenvolvida uma API REST de sorteios, que recebe 
 A API aceita tres tipos de requisição get:
 
 <h4 style="color:orange;"> "/api/aposta" </h4>
+
 - Quando nenhum parâmetro é passado a API retorna uma lista com todos as apostas de todos os emails.
-<img src=(./README/GETALL.png) />
+  ![](./README/GETALL.png)
 
 <h4 style="color:orange;"> "/api/aposta/{email}" </h4>
 
