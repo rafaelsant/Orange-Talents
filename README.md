@@ -22,16 +22,15 @@ A API aceita tres tipos de requisição get:
 
 <h4 style="color:orange;"> "/api/aposta" </h4>
 - Quando nenhum parâmetro é passado a API retorna uma lista com todos as apostas de todos os emails.
-    ![](./README/GETALL.png)
+    <img src="./README/GETALL.png" />
 
 <h4 style="color:orange;"> "/api/aposta/{email}" </h4>
-- Quando o email é passado como parâmetro, o retorno é uma lista de todas as apostas referentes ao email do parâmetro.
-    ![](./README/GET.png)
+- Quando o email é passado como parâmetro, o retorno é uma lista de todas as apostas referentes ao email do parâmetro.![](./README/ERROR.png)
 
 <h4 style="color:orange;"> "/api/aposta/id/${id}" </h4>
 - Quando o id é passado como parâmetro na rota ```/api/aposta/id/{id}``` a API retorna a aposta referente ao id passado como parâmetro.
-    ![](./README/GETID.png)
+   <img src="./README/GETID.png" />
 <hr>
 <h2 style="color:orange;"> DELETE: </h2>
 - A rota ```/api/aposta/{id}``` recebe como parâmetro o id da aposta que deve ser deletada.
-    ![](./README/DELETE.png)
+    <img src="./README/DELETE.png"/>
