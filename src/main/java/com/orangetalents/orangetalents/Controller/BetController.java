@@ -4,9 +4,6 @@ package com.orangetalents.orangetalents.Controller;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.orangetalents.orangetalents.Models.Bet;
 import com.orangetalents.orangetalents.Services.BetService;
 
 import DTO.BetDTO;
@@ -54,8 +50,8 @@ public class BetController {
 		return service.createBet(email.getEmail());
 	}
 	@DeleteMapping("/{id}")
-	public void deleteBet(@PathVariable Long id) {
-		System.out.println(id);
+	public ResponseEntity<?> deleteBet(@PathVariable Long id) {
 		service.deleteBet(id);
+		return ResponseEntity.noContent().build();
 	}
 }

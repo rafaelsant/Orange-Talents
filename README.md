@@ -7,7 +7,7 @@ Nesse projeto Spring Boot foi desenvolvida uma API REST de sorteios, que recebe 
 
 <h2 style="color:orange;"> POST: </h2>
 
-- Quando a API recebe uma requisição POST com o caminho `"/api/aposta/{email}"` passando como parâmetro um email ela retorna ao usuário o email que foi enviado como parâmetro, o id da aposta e os 6 números aleatórios gerados pela aplicação.
+- Quando a API recebe uma requisição POST com o caminho `"/api/aposta/"` passando como corpo da requisição um email ela retorna ao usuário o email que foi enviado como parâmetro e os 6 números aleatórios gerados pela aplicação.
 - A aplicação faz uma busca no banco de dados e verifica se a aposta gerada é diferente das demais apostas geradas para aquele email antes e fazer a persistência dos dados, se alguma aposta for igual uma nova aposta é gerada e então salva no banco.
 
   ![](./README/POST.png)
@@ -25,9 +25,9 @@ A API aceita tres tipos de requisição get:
 - Quando nenhum parâmetro é passado a API retorna uma lista com todos as apostas de todos os emails.
   ![](./README/GETALL.png)
 
-<h4 style="color:orange;"> "/api/aposta/{email}" </h4>
+<h4 style="color:orange;"> "/api/aposta/email" </h4>
 
-- Quando o email é passado como parâmetro, o retorno é uma lista de todas as apostas referentes ao email do parâmetro.
+- Quando o email é passado como parâmetro no corpo da requisição, o retorno é uma lista de todas as apostas referentes ao email do parâmetro.
   ![](./README/GET.png)
 
 <h4 style="color:orange;"> "/api/aposta/id/${id}" </h4>
