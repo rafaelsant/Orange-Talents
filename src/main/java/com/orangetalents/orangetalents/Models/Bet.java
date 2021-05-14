@@ -7,9 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-import lombok.Data;
 
-@Data
+
 @Entity
 @Table(name = "bet")
 public class Bet {
@@ -20,6 +19,14 @@ public class Bet {
 	@Email
 	private String email;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	@OneToMany(mappedBy = "bet",cascade = CascadeType.ALL)
 	private Set<Numbers> betNumbers;
 
@@ -28,4 +35,17 @@ public class Bet {
 				.map( n -> n.getGeneratedNumber())
 				.collect(Collectors.toSet());
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setBetNumbers(Set<Numbers> betNumbers) {
+		this.betNumbers = betNumbers;
+	}
+	
 }

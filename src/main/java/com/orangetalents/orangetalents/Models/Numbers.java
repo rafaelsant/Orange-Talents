@@ -19,7 +19,16 @@ public class Numbers {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private Integer generatedNumber;
+    public Bet getBet() {
+		return bet;
+	}
+	public void setBet(Bet bet) {
+		this.bet = bet;
+	}
+	public Long getId() {
+		return id;
+	}
+	private Integer generatedNumber;
     
     @ManyToOne
     @JoinColumn(name = "bet_id")
