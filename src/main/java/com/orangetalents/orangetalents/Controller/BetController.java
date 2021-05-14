@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.orangetalents.orangetalents.Models.Bet;
 import com.orangetalents.orangetalents.Services.BetService;
+
+import DTO.BetDTO;
+import DTO.EmailDTO;
 
 @RestController
 @RequestMapping("api/aposta")
@@ -29,25 +33,25 @@ public class BetController {
 	private BetService service;
 	
 	@GetMapping
-	public List<Bet> getBets(){
+	public List<BetDTO> getBets(){
 		return service.getAll();
 	}
 	@GetMapping("/id/{id}")
-	public Optional<Bet> getBetById(@PathVariable Long id){
+	public Optional<BetDTO> getBetById(@PathVariable Long id){
 		return service.getBetById(id);
 	}
-	@GetMapping("/{email}")
-	public ResponseEntity<List<Bet>> getBetByEmail(@Valid @PathVariable String email){
-		Optional<List<Bet>> bet = Optional.of(service.getBetByEmail(email));
-		if(!service.getBetByEmail(email).isEmpty()) {
+	@GetMapping("/email")
+	public ResponseEntity<List<BetDTO>> getBetByEmail(@RequestBody EmailDTO email){
+		Optional<List<BetDTO>> bet = Optional.of(service.getBetByEmailDTO(email.getEmail()));
+		if(!service.getBetByEmailDTO(email.getEmail()).isEmpty()) {
 			return ResponseEntity.ok(bet.get());
 		}
 			return ResponseEntity.notFound().build();
 	}
-	@PostMapping("/{email}")
+	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
-	public Bet saveBet(@PathVariable @Valid  String email) {
-		return service.createBet(email);
+	public BetDTO saveBet(@RequestBody EmailDTO email) {
+		return service.createBet(email.getEmail());
 	}
 	@DeleteMapping("/{id}")
 	public void deleteBet(@PathVariable Long id) {
