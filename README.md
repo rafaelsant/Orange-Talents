@@ -1,3 +1,6 @@
+<h2 style="color:orange">Edit: Release 1.1 </h2>
+<p>Após o feedback do entrevistador <a href="https://github.com/GuillaumeFalourd">Guillaume </a> foram feitas algumas mudanças já foram incluidas nesse README, dentre elas a possibilidade de alterar o range e a quantidade de números gerados pelo gerador de números pelo banco de dados. </p>
+
 <h1 style="color:orange;"> Orange talents: </h1>
 
 Esse gerador de apostas foi um projeto proposto pela ZUP para o programa Orange Talents.
@@ -40,3 +43,17 @@ A API aceita tres tipos de requisição get:
 
 - A rota `/api/aposta/{id}` recebe como parâmetro o id da aposta que deve ser deletada.
   ![](./README/DELETE.png)
+
+<hr>
+
+## EXTRA:
+
+- O range e a quantidade de números aleatórios gerados pode ser alterado via banco de dados fazendo um update na tabela params.
+  ![](./README/SELECT_PARAMS.png)
+- Update na tabela para alterar o valor.
+  ![](./README/UPDATE_PARAMS.png)
+
+- Após a alteração dos dados da tabela Params.
+
+  ![](./README/UPDATE_PARAMS_RESULT.png)
+

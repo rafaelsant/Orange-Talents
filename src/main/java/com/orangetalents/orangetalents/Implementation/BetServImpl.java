@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 
 import com.orangetalents.orangetalents.Models.Bet;
 import com.orangetalents.orangetalents.Models.Numbers;
+import com.orangetalents.orangetalents.Models.Params;
 import com.orangetalents.orangetalents.Repository.BetRepository;
+import com.orangetalents.orangetalents.Repository.ParamsRepository;
 import com.orangetalents.orangetalents.Services.BetService;
 
 import DTO.BetDTO;
@@ -26,6 +28,8 @@ public class BetServImpl implements BetService {
 	private BetRepository apostaRep;
 	@PersistenceContext
 	private EntityManager manager;
+	@Autowired
+	private ParamsRepository params;
 	
 	@Override
 	public Optional<BetDTO> getBetById(Long id) {
@@ -61,12 +65,13 @@ public class BetServImpl implements BetService {
 				+ email+"'", Bet.class).getResultList();
 		return bets;
 	}
-	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public BetDTO createBet(String email) {
 		Bet aposta = new Bet();
 		aposta.setEmail(email);
-		Set<Numbers> gerados = Generator.NumGenerator(aposta); 
+		Optional<Params> param = params.findById(1);
+		System.out.println(param);
+		Set<Numbers> gerados = Generator.NumGenerator(aposta,param.get().getQuantity(),param.get().getRange()); 
 		List<Bet> apostasByEmail = getBetByEmail(email);
 		for(Bet n : apostasByEmail) {
 			System.out.println(gerados.stream().map( v -> v.getGeneratedNumber()).collect(Collectors.toSet()));
@@ -76,7 +81,7 @@ public class BetServImpl implements BetService {
 							.map( v -> v.getGeneratedNumber())
 							.collect(Collectors.toSet()))){
 				System.out.println("numeros iguais gerados!");
-				gerados = Generator.NumGenerator(aposta);
+				gerados = Generator.NumGenerator(aposta,param.get().getQuantity(),param.get().getRange());
 			}
 		}
 		aposta.setBetNumbers(gerados);

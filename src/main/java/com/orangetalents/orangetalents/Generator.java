@@ -9,13 +9,13 @@ import com.orangetalents.orangetalents.Models.Numbers;
 import java.util.LinkedHashSet;
 
 public class Generator {
-	public static Set<Numbers> NumGenerator(Bet aposta) {
+	public static Set<Numbers> NumGenerator(Bet aposta,Integer qtd,Integer range) {
 		Set<Integer> noRep = new LinkedHashSet<Integer>();
         Set<Numbers> numeros = new LinkedHashSet<Numbers>();
         Random rand = new Random();
         Integer generated = 0;
-        while (noRep.size() < 6) {
-        	generated = rand.nextInt(59) + 1;
+        while (noRep.size() < qtd) {
+        	generated = rand.nextInt(range) + 1;
         	noRep.add(generated);
         }
         for(Integer n : noRep) {
