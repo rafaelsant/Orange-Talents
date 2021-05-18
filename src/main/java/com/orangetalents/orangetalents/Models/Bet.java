@@ -30,6 +30,9 @@ public class Bet {
 	@OneToMany(mappedBy = "bet",cascade = CascadeType.ALL)
 	private Set<Numbers> betNumbers;
 
+	public Bet() {
+	}
+
 	public Set<Integer> getBetNumbers() {
 		return betNumbers.stream()
 				.map( n -> n.getGeneratedNumber())
@@ -38,6 +41,12 @@ public class Bet {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public Bet(Long id, @NotNull @Email String email, Set<Numbers> betNumbers) {
+		this.id = id;
+		this.email = email;
+		this.betNumbers = betNumbers;
 	}
 
 	public void setEmail(String email) {

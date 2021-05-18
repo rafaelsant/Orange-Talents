@@ -1,7 +1,6 @@
 package com.orangetalents.orangetalents.Implementation;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -11,6 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.orangetalents.orangetalents.Generator;
+import com.orangetalents.orangetalents.DTO.BetDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,22 +21,21 @@ import com.orangetalents.orangetalents.Models.Params;
 import com.orangetalents.orangetalents.Repository.BetRepository;
 import com.orangetalents.orangetalents.Repository.ParamsRepository;
 import com.orangetalents.orangetalents.Services.BetService;
-
-import DTO.BetDTO;
 @Service
 public class BetServImpl implements BetService {
-	@Autowired
+
 	private BetRepository apostaRep;
-	@PersistenceContext
-	private EntityManager manager;
-	@Autowired
 	private ParamsRepository params;
-	
+
+	public BetServImpl(BetRepository apostaRep, ParamsRepository params) {
+		this.apostaRep = apostaRep;
+		this.params = params;
+	}
+
 	@Override
-	public Optional<BetDTO> getBetById(Long id) {
-		Optional<Bet> bet = apostaRep.findById(id);
-		Optional<BetDTO> ans = Optional.of(new BetDTO(bet.get().getEmail(),bet.get().getBetNumbers())); 
-		return ans;
+	public Optional<Bet> getBetById(Long id) {
+		Optional<Bet> bet = apostaRep.findById(id); 
+		return bet;
 	}
 
 	@Override
@@ -49,50 +49,49 @@ public class BetServImpl implements BetService {
 	@Override
 	public List<BetDTO> getBetByEmailDTO(String email) {
 		List<BetDTO> ans = new ArrayList<BetDTO>();
-		List<Bet> bets= manager.createQuery("select distinct v " + 
-				"from Bet v join fetch "+ 
-				"v.betNumbers p where p.bet.email = '"
-				+ email+"'", Bet.class).getResultList();
+		List<Bet> bets= getBetByEmail(email);
 		bets.forEach(bet->ans.add(new BetDTO(bet.getEmail(),bet.getBetNumbers())));
 		return ans;
 	}
 
 	@Override
 	public List<Bet> getBetByEmail(String email) {
-		List<Bet> bets= manager.createQuery("select distinct v " + 
-				"from Bet v join fetch "+ 
-				"v.betNumbers p where p.bet.email = '"
-				+ email+"'", Bet.class).getResultList();
+		List<Bet> bets= apostaRep.getBetsByEmail(email);
 		return bets;
 	}
 	@Override
 	public BetDTO createBet(String email) {
 		Bet aposta = new Bet();
 		aposta.setEmail(email);
-		Optional<Params> param = params.findById(1);
-		System.out.println(param);
-		Set<Numbers> gerados = Generator.NumGenerator(aposta,param.get().getQuantity(),param.get().getRange()); 
+		Optional<Params> parameters = params.getParams(); 
+		Set<Numbers> gerados = Generator.NumGenerator(aposta,parameters.get().getBET_MAX_QUANTITY(),parameters.get().getBET_MAX_NUMBER()); 
 		List<Bet> apostasByEmail = getBetByEmail(email);
 		for(Bet n : apostasByEmail) {
-			System.out.println(gerados.stream().map( v -> v.getGeneratedNumber()).collect(Collectors.toSet()));
-			System.out.println(n.getBetNumbers());
 			while(n.getBetNumbers()
 					.equals(gerados.stream()
 							.map( v -> v.getGeneratedNumber())
 							.collect(Collectors.toSet()))){
 				System.out.println("numeros iguais gerados!");
-				gerados = Generator.NumGenerator(aposta,param.get().getQuantity(),param.get().getRange());
+				gerados = Generator.NumGenerator(aposta,parameters.get().getBET_MAX_QUANTITY(),parameters.get().getBET_MAX_NUMBER());
 			}
 		}
 		aposta.setBetNumbers(gerados);
-		BetDTO ans = new BetDTO(aposta.getEmail(),aposta.getBetNumbers());
 		apostaRep.save(aposta);
-		return ans;
+		return new BetDTO(aposta.getEmail(),aposta.getBetNumbers());
 	}
 
 	@Override
 	public void deleteBet(Long id) {
 		apostaRep.deleteById(id);
+	}
+
+	@Override
+	public BetDTO updateBet(Long id, String email) {
+		Bet bet = getBetById(id).get();
+		bet.setEmail(email);
+		apostaRep.save(bet);
+		BetDTO ans = new BetDTO(bet.getEmail(),bet.getBetNumbers());
+		return ans;
 	}
 	
 }

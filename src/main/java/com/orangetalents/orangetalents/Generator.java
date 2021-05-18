@@ -2,11 +2,11 @@ package com.orangetalents.orangetalents;
 
 import java.util.Random;
 import java.util.Set;
+import java.util.LinkedHashSet;
 
 import com.orangetalents.orangetalents.Models.Bet;
 import com.orangetalents.orangetalents.Models.Numbers;
 
-import java.util.LinkedHashSet;
 
 public class Generator {
 	public static Set<Numbers> NumGenerator(Bet aposta,Integer qtd,Integer range) {

@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.orangetalents.orangetalents.DTO.BetDTO;
+import com.orangetalents.orangetalents.DTO.EmailDTO;
 import com.orangetalents.orangetalents.Services.BetService;
-
-import DTO.BetDTO;
-import DTO.EmailDTO;
 
 @RestController
 @RequestMapping("api/aposta")
@@ -32,14 +32,11 @@ public class BetController {
 	public List<BetDTO> getBets(){
 		return service.getAll();
 	}
-	@GetMapping("/id/{id}")
-	public Optional<BetDTO> getBetById(@PathVariable Long id){
-		return service.getBetById(id);
-	}
-	@GetMapping("/email")
-	public ResponseEntity<List<BetDTO>> getBetByEmail(@RequestBody EmailDTO email){
-		Optional<List<BetDTO>> bet = Optional.of(service.getBetByEmailDTO(email.getEmail()));
-		if(!service.getBetByEmailDTO(email.getEmail()).isEmpty()) {
+	
+	@GetMapping("/{email}")
+	public ResponseEntity<List<BetDTO>> getBetByEmail(@PathVariable String email){
+		Optional<List<BetDTO>> bet = Optional.of(service.getBetByEmailDTO(email));
+		if(!service.getBetByEmailDTO(email).isEmpty()) {
 			return ResponseEntity.ok(bet.get());
 		}
 			return ResponseEntity.notFound().build();
@@ -49,6 +46,12 @@ public class BetController {
 	public BetDTO saveBet(@RequestBody EmailDTO email) {
 		return service.createBet(email.getEmail());
 	}
+	@PutMapping("/{id}")
+	public ResponseEntity<BetDTO> updateBet(@PathVariable Long id, @RequestBody EmailDTO email){
+		BetDTO ans = service.updateBet(id, email.getEmail());
+		return ResponseEntity.ok(ans);
+	}
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteBet(@PathVariable Long id) {
 		service.deleteBet(id);
