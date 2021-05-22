@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
-public class CreateUserServiceTest {
+public class CreateBetServiceTest {
 
 	@Mock
 	private ParamsRepository paramsRepository;
